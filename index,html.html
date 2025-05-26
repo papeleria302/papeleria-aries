@@ -1,0 +1,118 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Servicios</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: #f2f2f2;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+    }
+    button, select, input[type="file"], textarea {
+      width: 100%;
+      margin-top: 10px;
+      padding: 10px;
+      font-size: 16px;
+    }
+    .hidden {
+      display: none;
+    }
+    .section {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Selecciona una opción</h2>
+    <button onclick="mostrarConsulta()">Consultar artículo</button>
+    <button onclick="mostrarImpresion()">Impresión</button>
+
+    <div id="consulta" class="section hidden">
+      <label>¿Qué artículos deseas consultar?</label>
+      <textarea id="articuloTexto" rows="4"></textarea>
+      <button onclick="enviarConsulta()">Enviar</button>
+    </div>
+
+    <div id="impresion" class="section hidden">
+      <label>Subir documento:</label>
+      <input type="file" id="archivo" accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg" />
+
+      <label>Tipo de impresión:</label>
+      <select id="tipoColor">
+        <option value="Color">Color</option>
+        <option value="Blanco y negro">Blanco y negro</option>
+      </select>
+
+      <label>Tamaño de impresión:</label>
+      <select id="tamano">
+        <option value="Carta">Carta</option>
+        <option value="Oficio">Oficio</option>
+      </select>
+
+      <label>Tipo de papel:</label>
+      <select id="papel">
+        <option value="Normal">Papel normal</option>
+        <option value="Opalina">Opalina</option>
+        <option value="Fotográfico">Papel fotográfico</option>
+        <option value="Sticker">Papel sticker</option>
+      </select>
+
+      <button onclick="enviarImpresion()">Enviar</button>
+    </div>
+  </div>
+
+  <script>
+    function mostrarConsulta() {
+      document.getElementById('consulta').classList.remove('hidden');
+      document.getElementById('impresion').classList.add('hidden');
+    }
+
+    function mostrarImpresion() {
+      document.getElementById('impresion').classList.remove('hidden');
+      document.getElementById('consulta').classList.add('hidden');
+    }
+
+    function enviarConsulta() {
+      const texto = document.getElementById('articuloTexto').value.trim();
+      if (texto === '') {
+        alert('Por favor escribe el artículo que deseas consultar.');
+        return;
+      }
+      const mensaje = encodeURIComponent(`Hola, quiero consultar el siguiente artículo: ${texto}`);
+      window.open(`https://wa.me/529981040547?text=${mensaje}`, '_blank');
+    }
+
+    function enviarImpresion() {
+      const archivo = document.getElementById('archivo').files[0];
+      if (!archivo) {
+        alert('Por favor sube un archivo.');
+        return;
+      }
+      const tipoColor = document.getElementById('tipoColor').value;
+      const tamano = document.getElementById('tamano').value;
+      const papel = document.getElementById('papel').value;
+      const mensaje = encodeURIComponent(`Hola, quiero imprimir un documento con las siguientes características:%0A
+Tipo de impresión: ${tipoColor}%0A
+Tamaño: ${tamano}%0A
+Tipo de papel: ${papel}%0A
+(Por favor te enviaré el archivo por este chat)`);
+      window.open(`https://wa.me/529981040547?text=${mensaje}`, '_blank');
+    }
+  </script>
+</body>
+</html>
